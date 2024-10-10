@@ -1,0 +1,17 @@
+---
+import type { AstroInstance } from 'astro';
+
+interface Props {
+  icon: string;
+}
+
+const { icon } = Astro.props;
+const iconMarkups = await Astro.glob<AstroInstance>('./icon-markups/*.astro');
+const target = iconMarkups.find(it => it.file.includes(icon));
+---
+
+{target && (
+  <div class="px-1 py-1 hover:bg-blue-400/40 dark:hover:bg-blue-400/70 rounded">
+    <target.default />
+  </div>
+)}
