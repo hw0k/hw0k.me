@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+import { getEntries } from "astro:content";
+import { getEntry } from "astro:content";
+
+import type { InferGetStaticParamsType, InferGetStaticPropsType, GetStaticPaths } from 'astro';
+import Layout from "~/components/layout.astro";
+import Prose from "~/components/prose.astro";
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('posts');
+  return posts.map((post) => {
+    return {
+      params: { slug: post.slug },
+      props: post,
+    };
+  });
+}) satisfies GetStaticPaths;
+
+type Params = InferGetStaticParamsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
+
+const { slug } = Astro.params satisfies Params;
+
+const {
+  data: {
+    title,
+    publishedAt,
+    tags,
+  },
+  render,
+} = Astro.props;
+
+const post = await getEntry('posts', slug);
+const relatedPosts = await getEntries(post.data.relatedPosts);
+
+const { Content, headings } = await render();
+---
+
+<Layout pageTitle={title}>
+  <article class="container mx-auto">
+    <header class="mb-8">
+      <p class="text-sm text-gray-500">{publishedAt.toISOString().slice(0, 10)}</p>
+      <h1 class="text-4xl text-black dark:text-white font-extrabold leading-snug">{title}</h1>
+    </header>
+    <Prose>
+      <Content />
+      {Boolean(relatedPosts.length) && (
+        <hr />
+        <p>연관된 글</p>
+        <ul>
+          {relatedPosts.map((it) => (
+            <li><a href={it.slug}>{it.data.title}</a></li>
+          ))}
+        </ul>
+      )}
+    </Prose>
+  </article>
+</Layout>

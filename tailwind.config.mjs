@@ -8,9 +8,12 @@ export default {
 			'md': '768px',
 			'lg': '920px',
 		},
+		fontFamily: {
+			'sans': 'Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif',
+		},
 		extend: {
 			container: {
-				padding: '1rem',
+				padding: '1.5rem',
 			},
 		},
 	},
