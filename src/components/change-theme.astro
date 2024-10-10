@@ -1,0 +1,53 @@
+---
+import Icon from "./icon.astro";
+---
+
+<button id="change-theme">
+  <div class="hidden dark:flex">
+    <Icon icon="sun" />
+  </div>
+  <div class="flex dark:hidden">
+    <Icon icon="moon" />
+  </div>
+</button>
+<script is:inline>
+  function initTheme() {
+    const theme = (() => {
+      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+        return localStorage.getItem('theme');
+      }
+
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return 'dark';
+      }
+      return 'light';
+    })();
+
+    if (theme === 'light') {
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+    }
+    window.localStorage.setItem('theme', theme);
+
+    function toggleTheme() {
+      document.documentElement.classList.toggle('dark');
+
+      const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+      localStorage.setItem('theme', theme);
+    }
+    document.getElementById('change-theme').addEventListener('click', toggleTheme);
+  }
+
+  document.addEventListener('astro:page-load', initTheme);
+</script>
+<script is:inline>
+  function applyTheme() {
+    localStorage.getItem('theme') === 'dark'
+      ? document.documentElement.classList.add('dark')
+      : document.documentElement.classList.remove('dark');
+  }
+
+  document.addEventListener('astro:after-swap', applyTheme);
+  applyTheme();
+</script>
