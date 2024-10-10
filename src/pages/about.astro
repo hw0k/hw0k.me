@@ -1,10 +1,15 @@
 ---
+import type { MarkdownInstance } from "astro";
 import Layout from "~/components/layout.astro";
 import Prose from "~/components/prose.astro";
+
+const [{ Content }] = await Astro.glob<MarkdownInstance<any>>('../data/about.md');
 ---
 
-<Layout pageTitle="소개">
-	<div class="container mx-auto">
-		<p>안녕하세요 about</p>
-	</div>
+<Layout pageTitle="about">
+  <article class="container mx-auto">
+    <Prose>
+      <Content />
+    </Prose>
+  </article>
 </Layout>
