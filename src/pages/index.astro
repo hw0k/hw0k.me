@@ -1,8 +1,6 @@
 ---
-import { getEntries } from "astro:content";
 import { getCollection } from "astro:content";
 import Layout from "~/components/layout.astro";
-import Prose from "~/components/prose.astro";
 
 const posts = await getCollection('posts');
 const sortedPosts = posts.toSorted((a, b) => a.data.publishedAt > b.data.publishedAt ? -1 : 1);

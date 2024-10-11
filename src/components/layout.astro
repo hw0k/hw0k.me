@@ -18,7 +18,7 @@ const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 		<meta name="generator" content={Astro.generator} />
 		<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 		<title>{title}</title>
-    <ViewTransitions />
+    <ViewTransitions fallback="none" />
 	</head>
 	<body class="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white">
 		<header class="w-screen text-black dark:text-white">
@@ -36,14 +36,16 @@ const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 			<slot />
 		</main>
 		<footer class="mt-20 mb-4">
-			<div class="container mx-auto text-xs leading-relaxed text-gray-500 hover:*:text-gray-800 dark:hover:*:text-gray-300">
-        <a class="hover:underline" href="/feed.xml">RSS</a> | 
-        <a class="hover:underline" href="/sitemap.xml">Sitemap</a> | 
-        <a class="hover:underline" href="https://github.com/hw0k/hw0k.me">Source code</a>
+			<div class="container mx-auto text-xs leading-relaxed text-gray-500 hover:*:text-gray-800 hover:*:underline dark:hover:*:text-gray-300">
+				font: <a href="https://cactus.tistory.com/306">Pretendard</a> | icon: <a href="https://lucide.dev/icons/">Lucide</a>
+				<br />
+        <a href="mailto:contact@hw0k.me">contact@hw0k.me</a> | 
+        <a href="https://github.com/hw0k">GitHub</a> |
+        <a href="https://linkedin.com/in/hw0k">LinkedIn</a>
         <br />
-        <a class="hover:underline" href="mailto:hw0knam@gmail.com">hw0knam@gmail.com</a> | 
-        <a class="hover:underline" href="https://github.com/hw0k">GitHub</a> |
-        <a class="hover:underline" href="https://linkedin.com/in/hw0k">LinkedIn</a>
+        <a href="/feed.xml">RSS</a> | 
+        <a href="/sitemap.xml">Sitemap</a> | 
+        <a href="https://github.com/hw0k/hw0k.me">Source code</a>
       </div>
 		</footer>
 	</body>

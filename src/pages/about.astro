@@ -3,7 +3,7 @@ import type { MarkdownInstance } from "astro";
 import Layout from "~/components/layout.astro";
 import Prose from "~/components/prose.astro";
 
-const [{ Content }] = await Astro.glob<MarkdownInstance<any>>('../data/about.md');
+const [{ Content }] = await Astro.glob<MarkdownInstance<Record<string, any>>>('../data/about/about.md');
 ---
 
 <Layout pageTitle="about">

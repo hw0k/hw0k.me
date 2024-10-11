@@ -8,10 +8,12 @@ interface Props {
 const { icon } = Astro.props;
 const iconMarkups = await Astro.glob<AstroInstance>('./icon-markups/*.astro');
 const target = iconMarkups.find(it => it.file.includes(icon));
+if (!target) {
+  throw new Error('cannot find icon');
+}
+const { default: IconComponent } = target;
 ---
 
-{target && (
-  <div class="px-1 py-1 hover:bg-cyan-400/50 rounded">
-    <target.default />
-  </div>
-)}
+<div class="px-1 py-1 hover:bg-cyan-400/50 rounded">
+  <IconComponent />
+</div>
