@@ -11,6 +11,25 @@ import Icon from "./icon.astro";
   </div>
 </button>
 <script is:inline>
+  function toggleTheme() {
+    document.documentElement.classList.toggle('dark');
+
+    const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) {
+      return;
+    }
+    iframe.contentWindow.postMessage({
+      giscus: {
+        setConfig: {
+          theme: theme === 'dark' ? 'dark_dimmed' : 'light',
+        },
+      },
+    }, 'https://giscus.app');
+  }
+
   function initTheme() {
     const theme = (() => {
       if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
@@ -30,24 +49,6 @@ import Icon from "./icon.astro";
     }
     localStorage.setItem('theme', theme);
 
-    function toggleTheme() {
-      document.documentElement.classList.toggle('dark');
-
-      const theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
-      localStorage.setItem('theme', theme);
-
-      const iframe = document.querySelector('iframe.giscus-frame');
-      if (!iframe) {
-        return;
-      }
-      iframe.contentWindow.postMessage({
-        giscus: {
-          setConfig: {
-            theme: theme === 'dark' ? 'dark_dimmed' : 'light',
-          },
-        },
-      }, 'https://giscus.app');
-    }
     document.getElementById('change-theme').addEventListener('click', toggleTheme);
   }
 
@@ -58,22 +59,8 @@ import Icon from "./icon.astro";
     localStorage.getItem('theme') === 'dark'
       ? document.documentElement.classList.add('dark')
       : document.documentElement.classList.remove('dark');
-
-    const iframe = document.querySelector('iframe.giscus-frame');
-    if (!iframe) {
-      return;
-    }
-    iframe.contentWindow.postMessage({
-      giscus: {
-        setConfig: {
-          theme: localStorage.getItem('theme') === 'dark' ? 'dark_dimmed' : 'light',
-        },
-      },
-    }, 'https://giscus.app');
   }
 
   document.addEventListener('astro:after-swap', applyTheme);
   applyTheme();
-</script>
-<script is:inline>
 </script>

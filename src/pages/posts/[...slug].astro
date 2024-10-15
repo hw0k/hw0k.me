@@ -59,10 +59,12 @@ const { Content, headings } = await render();
   <div id="giscus-container" class="container mx-auto mt-12">
   </div>
 </Layout>
-<script is:inline>
+<script>
+  type Theme = 'dark' | 'light';
+
   function getGiscusTheme() {
-    const theme = localStorage.getItem('theme') ?? 'light';
-    const themeMap = {
+    const theme = (localStorage.getItem('theme') ?? 'light') as Theme;
+    const themeMap: Record<Theme, string> = {
       'dark': 'dark_dimmed',
       'light': 'light',
     };
@@ -70,26 +72,38 @@ const { Content, headings } = await render();
     return themeMap[theme];
   }
 
-  const attributes = {
-    'src': 'https://giscus.app/client.js',
-    'data-repo': 'hw0k/hw0k.me',
-    'data-repo-id': 'R_kgDOM-rX2Q',
-    'data-category': '댓글',
-    'data-category-id': 'DIC_kwDOM-rX2c4CjQoN',
-    'data-mapping': 'pathname',
-    'data-strict': '0',
-    'data-reactions-enabled': '1',
-    'data-emit-metadata': '0',
-    'data-input-position': 'top',
-    'data-theme': getGiscusTheme(),
-    'data-lang': 'ko',
-    'data-loading': 'lazy',
-    'crossorigin': 'anonymous',
-    'async': '',
-  };
-  const scriptElement = document.createElement('script');
-  Object.entries(attributes).forEach(([attr, value]) => {
-    scriptElement.setAttribute(attr, value);
-  });
-  document.getElementById('giscus-container').appendChild(scriptElement);
+  function appendGiscusComment() {
+    const containerElement = document.getElementById('giscus-container');
+    if (!containerElement) {
+      return;
+    }
+
+    const attributes = {
+      'src': 'https://giscus.app/client.js',
+      'data-repo': 'hw0k/hw0k.me',
+      'data-repo-id': 'R_kgDOM-rX2Q',
+      'data-category': '댓글',
+      'data-category-id': 'DIC_kwDOM-rX2c4CjQoN',
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-theme': getGiscusTheme(),
+      'data-lang': 'ko',
+      'data-loading': 'lazy',
+      'crossorigin': 'anonymous',
+      'async': '',
+    };
+    const scriptElement = document.createElement('script');
+    scriptElement.id = 'giscus-script';
+
+    Object.entries(attributes).forEach(([attr, value]) => {
+      scriptElement.setAttribute(attr, value);
+    });
+
+    containerElement.appendChild(scriptElement);
+  }
+
+  document.addEventListener('astro:page-load', appendGiscusComment);
 </script>
