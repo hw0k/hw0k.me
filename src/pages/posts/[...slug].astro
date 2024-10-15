@@ -105,5 +105,5 @@ const { Content, headings } = await render();
     containerElement.appendChild(scriptElement);
   }
 
-  document.addEventListener('astro:page-load', appendGiscusComment);
+  document.addEventListener('DOMContentLoaded', appendGiscusComment);
 </script>
