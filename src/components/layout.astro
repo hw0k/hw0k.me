@@ -9,7 +9,7 @@ const { pageTitle } = Astro.props;
 const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 ---
 
-<html lang="ko" transition:animate="none">
+<html lang="ko">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -40,8 +40,8 @@ const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 			initTheme();
 		</script>
 	</head>
-	<body class="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white">
-		<header class="w-screen text-black dark:text-white">
+	<body class="flex flex-col w-screen min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white">
+		<header class="text-black dark:text-white">
 			<div class="container mx-auto flex flex-row justify-between items-center h-16">
 				<div class="flex justify-start items-center">
 					<a class="text-xl font-bold hover:underline" href="/">hw0k.me</a>
