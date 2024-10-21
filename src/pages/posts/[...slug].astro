@@ -91,7 +91,8 @@ const { Content, headings } = await render();
       'data-input-position': 'top',
       'data-theme': getGiscusTheme(),
       'data-lang': 'ko',
-      'data-loading': 'lazy',
+      // MEMO: 지연로딩이 필요할 때까지 비활성화
+      // 'data-loading': 'lazy',
       'crossorigin': 'anonymous',
       'async': '',
     };
