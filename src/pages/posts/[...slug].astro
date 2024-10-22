@@ -50,7 +50,7 @@ const { Content, headings } = await render();
         <p>연관된 글</p>
         <ul>
           {relatedPosts.map((it) => (
-            <li><a href={`/posts/${it.slug}`}>{it.data.title}</a></li>
+            <li><a href={`/posts/${it.slug}`} data-astro-prefetch="load">{it.data.title}</a></li>
           ))}
         </ul>
       )}

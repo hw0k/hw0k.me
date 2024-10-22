@@ -8,4 +8,7 @@ export default defineConfig({
   site: 'https://hw0k.me',
   output: 'static',
   integrations: [tailwind()],
+  prefetch: {
+    prefetchAll: false,
+  },
 });
