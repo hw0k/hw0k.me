@@ -31,9 +31,6 @@ const {
   render,
 } = Astro.props;
 
-const post = await getEntry('posts', slug);
-const relatedPosts = await getEntries(post.data.relatedPosts);
-
 const { Content, headings } = await render();
 ---
 
@@ -45,15 +42,6 @@ const { Content, headings } = await render();
     </header>
     <Prose>
       <Content />
-      {Boolean(relatedPosts.length) && (
-        <hr />
-        <p>연관된 글</p>
-        <ul>
-          {relatedPosts.map((it) => (
-            <li><a href={`/posts/${it.slug}`} data-astro-prefetch="load">{it.data.title}</a></li>
-          ))}
-        </ul>
-      )}
     </Prose>
   </article>
   <div id="giscus-container" class="container mx-auto mt-12">

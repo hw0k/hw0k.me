@@ -3,8 +3,6 @@ title: 'Markdown Test'
 publishedAt: 2024-10-13T05:00:00
 tags:
   - Test tag
-relatedPosts:
-  - post-2
 ---
 
 **Note:** This document is itself written using Markdown; you
