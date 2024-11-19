@@ -14,6 +14,6 @@ export const GET: APIRoute = async (context) => {
       description: it.data.description,
       link: `/posts/${it.slug}`,
     })),
-    stylesheet: '/feed-style.xsl',
+    // stylesheet: '/rss.xsl',
   });
 };

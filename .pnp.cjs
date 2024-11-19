@@ -29,6 +29,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@astrojs/check", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:0.9.4"],\
           ["@astrojs/rss", "npm:4.0.9"],\
+          ["@astrojs/sitemap", "npm:3.2.1"],\
           ["@astrojs/tailwind", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:5.1.2"],\
           ["@tailwindcss/typography", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:0.5.15"],\
           ["@types/markdown-it", "npm:14.1.2"],\
@@ -194,6 +195,18 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/rss", "npm:4.0.9"],\
           ["fast-xml-parser", "npm:4.5.0"],\
           ["kleur", "npm:4.1.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@astrojs/sitemap", [\
+      ["npm:3.2.1", {\
+        "packageLocation": "../../.yarn/berry/cache/@astrojs-sitemap-npm-3.2.1-66d6034740-10c0.zip/node_modules/@astrojs/sitemap/",\
+        "packageDependencies": [\
+          ["@astrojs/sitemap", "npm:3.2.1"],\
+          ["sitemap", "npm:8.0.0"],\
+          ["stream-replace-string", "npm:2.0.0"],\
+          ["zod", "npm:3.23.8"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1556,12 +1569,39 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@types/node", [\
+      ["npm:17.0.45", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-node-npm-17.0.45-fdb38d1624-10c0.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:17.0.45"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:22.9.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-node-npm-22.9.0-643fcf7450-10c0.zip/node_modules/@types/node/",\
+        "packageDependencies": [\
+          ["@types/node", "npm:22.9.0"],\
+          ["undici-types", "npm:6.19.8"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@types/sanitize-html", [\
       ["npm:2.13.0", {\
         "packageLocation": "../../.yarn/berry/cache/@types-sanitize-html-npm-2.13.0-75e761ecaa-10c0.zip/node_modules/@types/sanitize-html/",\
         "packageDependencies": [\
           ["@types/sanitize-html", "npm:2.13.0"],\
           ["htmlparser2", "npm:8.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/sax", [\
+      ["npm:1.2.7", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-sax-npm-1.2.7-8cb29ef8d3-10c0.zip/node_modules/@types/sax/",\
+        "packageDependencies": [\
+          ["@types/sax", "npm:1.2.7"],\
+          ["@types/node", "npm:22.9.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3231,6 +3271,7 @@ const RAW_RUNTIME_STATE =
           ["hw0k-me", "workspace:."],\
           ["@astrojs/check", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:0.9.4"],\
           ["@astrojs/rss", "npm:4.0.9"],\
+          ["@astrojs/sitemap", "npm:3.2.1"],\
           ["@astrojs/tailwind", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:5.1.2"],\
           ["@tailwindcss/typography", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:0.5.15"],\
           ["@types/markdown-it", "npm:14.1.2"],\
@@ -5506,6 +5547,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["sax", [\
+      ["npm:1.4.1", {\
+        "packageLocation": "../../.yarn/berry/cache/sax-npm-1.4.1-503b1923cb-10c0.zip/node_modules/sax/",\
+        "packageDependencies": [\
+          ["sax", "npm:1.4.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["section-matter", [\
       ["npm:1.0.0", {\
         "packageLocation": "./.yarn/cache/section-matter-npm-1.0.0-2f79fd59d6-8007f91780.zip/node_modules/section-matter/",\
@@ -5626,6 +5676,19 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["sitemap", [\
+      ["npm:8.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/sitemap-npm-8.0.0-508eac4fd2-10c0.zip/node_modules/sitemap/",\
+        "packageDependencies": [\
+          ["sitemap", "npm:8.0.0"],\
+          ["@types/node", "npm:17.0.45"],\
+          ["@types/sax", "npm:1.2.7"],\
+          ["arg", "npm:5.0.2"],\
+          ["sax", "npm:1.4.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["smart-buffer", [\
       ["npm:4.2.0", {\
         "packageLocation": "./.yarn/cache/smart-buffer-npm-4.2.0-5ac3f668bb-a16775323e.zip/node_modules/smart-buffer/",\
@@ -5707,6 +5770,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/stdin-discarder-npm-0.2.2-6afaccfb3e-c78375e82e.zip/node_modules/stdin-discarder/",\
         "packageDependencies": [\
           ["stdin-discarder", "npm:0.2.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["stream-replace-string", [\
+      ["npm:2.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/stream-replace-string-npm-2.0.0-2e7e10c117-10c0.zip/node_modules/stream-replace-string/",\
+        "packageDependencies": [\
+          ["stream-replace-string", "npm:2.0.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -6018,6 +6090,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/uc.micro-npm-2.1.0-c45282c865-10c0.zip/node_modules/uc.micro/",\
         "packageDependencies": [\
           ["uc.micro", "npm:2.1.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["undici-types", [\
+      ["npm:6.19.8", {\
+        "packageLocation": "../../.yarn/berry/cache/undici-types-npm-6.19.8-9f12285b7a-10c0.zip/node_modules/undici-types/",\
+        "packageDependencies": [\
+          ["undici-types", "npm:6.19.8"]\
         ],\
         "linkType": "HARD"\
       }]\
