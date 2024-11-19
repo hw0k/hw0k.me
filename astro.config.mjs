@@ -9,7 +9,9 @@ export default defineConfig({
   site: 'https://hw0k.me',
   output: 'static',
   integrations: [
-    tailwind(),
+    tailwind({
+      applyBaseStyles: false,
+    }),
     sitemap({
       lastmod: new Date(),
       // xslURL: '/sitemap.xsl',

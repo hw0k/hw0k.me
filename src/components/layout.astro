@@ -1,5 +1,6 @@
 ---
 import ChangeTheme from './change-theme.astro';
+import '~/styles/base.css';
 
 interface Props {
   pageTitle?: string;
@@ -40,7 +41,7 @@ const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 			initTheme();
 		</script>
 	</head>
-	<body class="flex flex-col overflow-x-hidden w-screen min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white" style="text-rendering: optimizeLegibility;">
+	<body class="flex flex-col overflow-x-hidden w-screen min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white antialiased text-rendering-legibility">
 		<header class="text-black dark:text-white">
 			<div class="container mx-auto flex flex-row justify-between items-center h-16">
 				<div class="flex justify-start items-center">
