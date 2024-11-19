@@ -1,0 +1,50 @@
+<div id="giscus-container" class="container mx-auto" />
+<script>
+  type Theme = 'dark' | 'light';
+
+  function getGiscusTheme() {
+    const theme = (localStorage.getItem('theme') ?? 'light') as Theme;
+    const themeMap: Record<Theme, string> = {
+      'dark': 'dark_dimmed',
+      'light': 'light',
+    };
+
+    return themeMap[theme];
+  }
+
+  function appendGiscusComment() {
+    const containerElement = document.getElementById('giscus-container');
+    if (!containerElement) {
+      return;
+    }
+
+    const attributes = {
+      'src': 'https://giscus.app/client.js',
+      'data-repo': 'hw0k/hw0k.me',
+      'data-repo-id': 'R_kgDOM-rX2Q',
+      'data-category': '댓글',
+      'data-category-id': 'DIC_kwDOM-rX2c4CjQoN',
+      'data-mapping': 'pathname',
+      'data-strict': '0',
+      'data-reactions-enabled': '1',
+      'data-emit-metadata': '0',
+      'data-input-position': 'top',
+      'data-theme': getGiscusTheme(),
+      'data-lang': 'ko',
+      // MEMO: 지연로딩이 필요할 때까지 비활성화
+      // 'data-loading': 'lazy',
+      'crossorigin': 'anonymous',
+      'async': '',
+    };
+    const scriptElement = document.createElement('script');
+    scriptElement.id = 'giscus-script';
+
+    Object.entries(attributes).forEach(([attr, value]) => {
+      scriptElement.setAttribute(attr, value);
+    });
+
+    containerElement.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', appendGiscusComment);
+</script>
