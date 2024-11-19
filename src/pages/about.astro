@@ -1,13 +1,15 @@
 ---
-import type { MarkdownInstance } from "astro";
+import { getEntry } from "astro:content";
+import GiscusContainer from "~/components/giscus-container.astro";
 import Layout from "~/components/layout.astro";
 import Prose from "~/components/prose.astro";
 
-const [{ Content }] = await Astro.glob<MarkdownInstance<Record<string, any>>>('../data/about/about.md');
+const { data: post, render } = await getEntry('custom-contents', 'about');
+const { Content } = await render();
 ---
 
 <Layout pageTitle="about">
-  <article class="container mx-auto">
+  <article class="container mx-auto mb-12">
     <Prose>
       <Content />
     </Prose>
