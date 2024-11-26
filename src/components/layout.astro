@@ -16,7 +16,9 @@ const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+		<link rel="preload" href="/woff2/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href="/pretendardvariable.css" as="style" crossorigin />
+		<link rel="stylesheet" href="/pretendardvariable.css" crossorigin />
 		<title>{title}</title>
 		<script is:inline>
 			function initTheme() {
