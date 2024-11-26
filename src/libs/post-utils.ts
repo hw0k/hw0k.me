@@ -9,9 +9,11 @@ const html2text = compile({
   decodeEntities: true,
 });
 
+const EXCERPT_LENGTH = 300;
+
 export const getExcerptFromPostBody = (body: string) => {
   const rendered = parser.render(body);
   const parsed = html2text(rendered).split('\n').filter(Boolean).join(' ');
-  const excerpt = `${parsed.substring(0, 400)}${parsed.length > 400 ? '...' : ''}`;
+  const excerpt = `${parsed.substring(0, EXCERPT_LENGTH)}${parsed.length > EXCERPT_LENGTH ? '...' : ''}`;
   return excerpt;
 };
