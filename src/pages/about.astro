@@ -8,7 +8,7 @@ const { data: post, render } = await getEntry('custom-contents', 'about');
 const { Content } = await render();
 ---
 
-<Layout pageTitle="about">
+<Layout title="about">
   <article class="container mx-auto mb-12">
     <Prose>
       <Content />

@@ -1,47 +1,47 @@
 ---
 import ChangeTheme from './change-theme.astro';
 import '~/styles/base.css';
+import defaultOgImage from '~/assets/images/quebec-city.jpg';
 
 interface Props {
-  pageTitle?: string;
+  title?: string;
+	description?: string;
+	thumbnailPath?: string;
+	thumbnailAlt?: string;
 }
 
-const { pageTitle } = Astro.props;
-const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
+const { title, description, thumbnailPath, thumbnailAlt } = Astro.props;
+const pageTitle = [title, 'hw0k.me'].filter(Boolean).join(' | ');
+const pageDescription = description ?? '남현욱의 개인 블로그';
+const ogImagePath = thumbnailPath ?? defaultOgImage.src;
+const ogImageAlt = thumbnailAlt ?? pageTitle;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <html lang="ko">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
 		<link rel="preload" href="/woff2/PretendardVariable.woff2" as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href="/pretendardvariable.css" as="style" crossorigin />
 		<link rel="stylesheet" href="/pretendardvariable.css" crossorigin />
-		<title>{title}</title>
-		<script is:inline>
-			function initTheme() {
-				const theme = (() => {
-					if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-						return localStorage.getItem('theme');
-					}
-
-					if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-						return 'dark';
-					}
-					return 'light';
-				})();
-
-				if (theme === 'light') {
-					document.documentElement.classList.remove('dark');
-				} else {
-					document.documentElement.classList.add('dark');
-				}
-				localStorage.setItem('theme', theme);
-			}
-			initTheme();
-		</script>
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<link rel="canonical" href={canonicalURL} />
+		<link rel="alternative" type="application/rss+xml" title="hw0k.me" href="/rss.xml" />
+		<title>{pageTitle}</title>
+		<meta name="description" content={pageDescription} />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={pageDescription} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={ogImagePath} />
+		<meta property="og:image:type" content="image/jpeg" />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={ogImageAlt} />
+		<script is:inline src="/init-theme.js" />
 	</head>
 	<body class="flex flex-col overflow-x-hidden w-screen min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white antialiased text-rendering-legibility">
 		<header class="text-black dark:text-white">
@@ -60,14 +60,12 @@ const title = [pageTitle, 'hw0k.me'].filter(Boolean).join(' | ');
 		</main>
 		<footer class="mt-20 mb-4">
 			<div class="container mx-auto text-xs leading-relaxed text-gray-500 hover:*:text-gray-800 hover:*:underline dark:hover:*:text-gray-300">
-				font: <a href="https://cactus.tistory.com/306">Pretendard</a> | icon: <a href="https://lucide.dev/icons/">Lucide</a>
-				<br />
         <a href="mailto:contact@hw0k.me">contact@hw0k.me</a> | 
-        <a href="https://github.com/hw0k">GitHub</a> |
-        <a href="https://linkedin.com/in/hw0k">LinkedIn</a>
+        <a href="https://github.com/hw0k">github</a> |
+        <a href="https://linkedin.com/in/hw0k">linkedin</a>
         <br />
-        <a href="/feed.xml">RSS</a> | 
-        <a href="https://github.com/hw0k/hw0k.me">Source code</a>
+        <a href="/rss.xml">rss</a> | 
+        <a href="https://github.com/hw0k/hw0k.me">source code</a>
       </div>
 		</footer>
 	</body>

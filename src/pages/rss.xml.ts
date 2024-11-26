@@ -6,7 +6,7 @@ export const GET: APIRoute = async (context) => {
   const posts = await getCollection('posts');
   return rss({
     title: 'hw0k.me',
-    description: '남현욱 블로그',
+    description: '남현욱의 개인 블로그',
     site: context.site!,
     items: posts.map(post => ({
       title: post.data.title,

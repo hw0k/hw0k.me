@@ -32,9 +32,11 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/sitemap", "npm:3.2.1"],\
           ["@astrojs/tailwind", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:5.1.2"],\
           ["@tailwindcss/typography", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:0.5.15"],\
+          ["@types/html-to-text", "npm:9.0.4"],\
           ["@types/markdown-it", "npm:14.1.2"],\
           ["@types/sanitize-html", "npm:2.13.0"],\
           ["astro", "npm:4.16.13"],\
+          ["html-to-text", "npm:9.0.5"],\
           ["markdown-it", "npm:14.1.0"],\
           ["sanitize-html", "npm:2.13.1"],\
           ["tailwindcss", "npm:3.4.13"],\
@@ -1344,6 +1346,17 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@selderee/plugin-htmlparser2", [\
+      ["npm:0.11.0", {\
+        "packageLocation": "../../.yarn/berry/cache/@selderee-plugin-htmlparser2-npm-0.11.0-3e13de8e13-10c0.zip/node_modules/@selderee/plugin-htmlparser2/",\
+        "packageDependencies": [\
+          ["@selderee/plugin-htmlparser2", "npm:0.11.0"],\
+          ["domhandler", "npm:5.0.3"],\
+          ["selderee", "npm:0.11.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@shikijs/core", [\
       ["npm:1.23.1", {\
         "packageLocation": "./.yarn/cache/@shikijs-core-npm-1.23.1-decb29a2f9-3f0d343322.zip/node_modules/@shikijs/core/",\
@@ -1507,6 +1520,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@types/hast", "npm:3.0.4"],\
           ["@types/unist", "npm:3.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/html-to-text", [\
+      ["npm:9.0.4", {\
+        "packageLocation": "../../.yarn/berry/cache/@types-html-to-text-npm-9.0.4-e3b3acf51e-10c0.zip/node_modules/@types/html-to-text/",\
+        "packageDependencies": [\
+          ["@types/html-to-text", "npm:9.0.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3211,6 +3233,20 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["html-to-text", [\
+      ["npm:9.0.5", {\
+        "packageLocation": "../../.yarn/berry/cache/html-to-text-npm-9.0.5-42d3729c77-10c0.zip/node_modules/html-to-text/",\
+        "packageDependencies": [\
+          ["html-to-text", "npm:9.0.5"],\
+          ["@selderee/plugin-htmlparser2", "npm:0.11.0"],\
+          ["deepmerge", "npm:4.3.1"],\
+          ["dom-serializer", "npm:2.0.0"],\
+          ["htmlparser2", "npm:8.0.2"],\
+          ["selderee", "npm:0.11.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["html-void-elements", [\
       ["npm:3.0.0", {\
         "packageLocation": "./.yarn/cache/html-void-elements-npm-3.0.0-e1a7d1151b-a8b9ec5db2.zip/node_modules/html-void-elements/",\
@@ -3274,9 +3310,11 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/sitemap", "npm:3.2.1"],\
           ["@astrojs/tailwind", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:5.1.2"],\
           ["@tailwindcss/typography", "virtual:63ebae88965c07b9efc82777f2d34ab793f74823a70907058d8bcad47aee8a2910c0022d1eca488c85f5c45a3ebe4d70552be5bc806a2f218fa228287fe4913a#npm:0.5.15"],\
+          ["@types/html-to-text", "npm:9.0.4"],\
           ["@types/markdown-it", "npm:14.1.2"],\
           ["@types/sanitize-html", "npm:2.13.0"],\
           ["astro", "npm:4.16.13"],\
+          ["html-to-text", "npm:9.0.5"],\
           ["markdown-it", "npm:14.1.0"],\
           ["sanitize-html", "npm:2.13.1"],\
           ["tailwindcss", "npm:3.4.13"],\
@@ -3626,6 +3664,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/kleur-npm-4.1.5-46b6135f41-e9de6cb496.zip/node_modules/kleur/",\
         "packageDependencies": [\
           ["kleur", "npm:4.1.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["leac", [\
+      ["npm:0.6.0", {\
+        "packageLocation": "../../.yarn/berry/cache/leac-npm-0.6.0-79f7890bc5-10c0.zip/node_modules/leac/",\
+        "packageDependencies": [\
+          ["leac", "npm:0.6.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4819,6 +4866,17 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["parseley", [\
+      ["npm:0.12.1", {\
+        "packageLocation": "../../.yarn/berry/cache/parseley-npm-0.12.1-dabcf2cdc8-10c0.zip/node_modules/parseley/",\
+        "packageDependencies": [\
+          ["parseley", "npm:0.12.1"],\
+          ["leac", "npm:0.6.0"],\
+          ["peberminta", "npm:0.9.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["path-browserify", [\
       ["npm:1.0.1", {\
         "packageLocation": "./.yarn/cache/path-browserify-npm-1.0.1-f975d99a99-8b8c3fd5c6.zip/node_modules/path-browserify/",\
@@ -4862,6 +4920,15 @@ const RAW_RUNTIME_STATE =
           ["path-scurry", "npm:1.11.1"],\
           ["lru-cache", "npm:10.4.3"],\
           ["minipass", "npm:7.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["peberminta", [\
+      ["npm:0.9.0", {\
+        "packageLocation": "../../.yarn/berry/cache/peberminta-npm-0.9.0-c8a37f2c79-10c0.zip/node_modules/peberminta/",\
+        "packageDependencies": [\
+          ["peberminta", "npm:0.9.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5563,6 +5630,16 @@ const RAW_RUNTIME_STATE =
           ["section-matter", "npm:1.0.0"],\
           ["extend-shallow", "npm:2.0.1"],\
           ["kind-of", "npm:6.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["selderee", [\
+      ["npm:0.11.0", {\
+        "packageLocation": "../../.yarn/berry/cache/selderee-npm-0.11.0-b04976dc09-10c0.zip/node_modules/selderee/",\
+        "packageDependencies": [\
+          ["selderee", "npm:0.11.0"],\
+          ["parseley", "npm:0.12.1"]\
         ],\
         "linkType": "HARD"\
       }]\
