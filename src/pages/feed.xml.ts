@@ -8,11 +8,11 @@ export const GET: APIRoute = async (context) => {
     title: 'hw0k.me',
     description: '남현욱 블로그',
     site: context.site!,
-    items: posts.map(it => ({
-      title: it.data.title,
-      pubDate: it.data.publishedAt,
-      description: it.data.description,
-      link: `/posts/${it.slug}`,
+    items: posts.map(post => ({
+      title: post.data.title,
+      pubDate: post.data.publishedAt,
+      description: post.data.description,
+      link: `/posts/${post.slug}`,
     })),
     // stylesheet: '/rss.xsl',
   });
