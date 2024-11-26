@@ -34,7 +34,7 @@ jobs:
           yarn set version berry
           echo "YARN_VERSION=$(yarn -v)" >> $GITHUB_OUTPUT
       - name: Cache dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v4
         with:
           path: |
             .yarn/cache
