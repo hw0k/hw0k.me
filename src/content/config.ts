@@ -4,6 +4,7 @@ const markdownSchema = ({ image }: { image: ImageFunction }) => z.object({
   title: z.string(),
   description: z.string().optional(),
   publishedAt: z.date(),
+  updatedAt: z.date().optional(),
   tags: z.array(z.string()).default([]),
   thumbnail: image().optional(),
   thumbnailAlt: z.string().optional(),
