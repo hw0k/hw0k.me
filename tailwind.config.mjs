@@ -13,6 +13,17 @@ export default {
 			container: {
 				padding: '1.5rem',
 			},
+			typography: {
+        DEFAULT: {
+          css: {
+            'blockquote': {
+							fontStyle: 'normal',
+						},
+            'blockquote p:first-of-type::before': false,
+            'blockquote p:first-of-type::after': false,
+          },
+        },
+			},
 		},
 	},
 	plugins: [
