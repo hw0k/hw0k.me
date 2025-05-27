@@ -1,7 +1,7 @@
 ---
+import { CDN_URL } from '~/constants';
 import ChangeTheme from './change-theme.astro';
 import '~/styles/base.css';
-import defaultOgImage from '~/assets/images/quebec-city.jpg';
 
 interface Props {
   title?: string;
@@ -13,7 +13,7 @@ interface Props {
 const { title, description, thumbnailPath, thumbnailAlt } = Astro.props;
 const pageTitle = [title, 'hw0k.me'].filter(Boolean).join(' | ');
 const pageDescription = description ?? '남현욱의 개인 블로그';
-const ogImagePath = thumbnailPath ?? defaultOgImage.src;
+const ogImagePath = thumbnailPath ?? `${CDN_URL}/quebec-city.jpg`;
 const ogImageAlt = thumbnailAlt ?? pageTitle;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);

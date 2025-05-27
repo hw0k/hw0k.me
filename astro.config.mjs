@@ -20,4 +20,7 @@ export default defineConfig({
   prefetch: {
     prefetchAll: false,
   },
+  image: {
+    domains: ['cdn.hw0k.me'],
+  },
 });
