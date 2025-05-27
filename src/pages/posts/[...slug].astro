@@ -1,7 +1,7 @@
 ---
-import type { InferGetStaticParamsType, InferGetStaticPropsType, GetStaticPaths } from 'astro';
+import type { InferGetStaticParamsType, GetStaticPaths } from 'astro';
 
-import { getCollection } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import { getExcerptFromPostBody } from "~/libs/post-utils";
 import Layout from "~/components/layout.astro";
 import Prose from "~/components/prose.astro";
@@ -11,30 +11,24 @@ export const getStaticPaths = (async () => {
   const posts = await getCollection('posts');
   return posts.map((post) => {
     return {
-      params: { slug: post.slug },
-      props: { ...post, excerpt: getExcerptFromPostBody(post.body), },
+      params: { slug: post.id },
     };
   });
 }) satisfies GetStaticPaths;
 
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
-type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { slug } = Astro.params satisfies Params;
 
-const {
-  data: {
-    title,
-    description,
-    publishedAt,
-    tags,
-  },
-  excerpt,
-  render,
-} = Astro.props;
+const post = await getEntry('posts', slug);
+if (!post) {
+  throw new Error();
+}
 
-const { Content, headings } = await render();
-const ogDescription = description ?? excerpt;
+const { Content, headings } = await render(post);
+const { title, publishedAt, updatedAt, description } = post.data;
+
+const ogDescription = description ?? getExcerptFromPostBody(post?.body ?? '');
 ---
 
 <Layout title={title} description={ogDescription}>

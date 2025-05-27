@@ -1,13 +1,13 @@
 ---
-import Icon from "./icon.astro";
+import { Sun, Moon } from '@lucide/astro';
 ---
 
 <button id="change-theme">
   <div class="hidden dark:flex">
-    <Icon icon="sun" />
+    <Sun />
   </div>
   <div class="flex dark:hidden">
-    <Icon icon="moon" />
+    <Moon />
   </div>
 </button>
 <script is:inline>
