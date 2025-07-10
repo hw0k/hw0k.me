@@ -1,0 +1,22 @@
+name: Discord Notification for Giscus Comments
+
+on:
+  discussion_comment:
+    types: [created]
+
+jobs:
+  notify-discord:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        with:
+          args: |
+            **hw0k.me - 새로운 댓글**
+            
+            **작성자:** ${{ github.event.comment.user.login }}
+            **댓글 내용:** ${{ github.event.comment.body }}
+            **Discussion:** ${{ github.event.discussion.title }}
+            **링크:** ${{ github.event.comment.html_url }}
