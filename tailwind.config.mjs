@@ -11,7 +11,10 @@ export default {
     },
     extend: {
       container: {
-        padding: '1.5rem',
+        padding: {
+          DEFAULT: '1rem',
+          lg: '1.5rem',
+        },
       },
       typography: {
         DEFAULT: {
