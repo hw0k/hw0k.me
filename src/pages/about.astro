@@ -10,7 +10,7 @@ if (!post) {
 const { Content } = await render(post);
 ---
 
-<Layout title="about">
+<Layout title="about" noindex={true}>
   <article class="container mx-auto mb-12">
     <Prose>
       <Content />

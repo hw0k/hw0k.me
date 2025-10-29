@@ -1,6 +1,7 @@
 ---
 import { CDN_URL } from '~/constants';
 import ChangeTheme from './change-theme.astro';
+import NoIndex from './no-index.astro';
 import '~/styles/base.css';
 
 interface Props {
@@ -8,9 +9,10 @@ interface Props {
 	description?: string;
 	thumbnailPath?: string;
 	thumbnailAlt?: string;
+	noindex?: boolean;
 }
 
-const { title, description, thumbnailPath, thumbnailAlt } = Astro.props;
+const { title, description, thumbnailPath, thumbnailAlt, noindex = false } = Astro.props;
 const pageTitle = [title, 'hw0k.me'].filter(Boolean).join(' | ');
 const pageDescription = description ?? '남현욱의 개인 블로그';
 const ogImagePath = thumbnailPath ?? `${CDN_URL}/quebec-city.jpg`;
@@ -28,10 +30,11 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<link rel="canonical" href={canonicalURL} />
+		<link rel="canonical" href={canonicalURL.toString()} />
 		<link rel="alternative" type="application/rss+xml" title="hw0k.me" href="/rss.xml" />
 		<title>{pageTitle}</title>
 		<meta name="description" content={pageDescription} />
+		{noindex && <NoIndex />}
 		<meta property="og:title" content={pageTitle} />
 		<meta property="og:description" content={pageDescription} />
 		<meta property="og:type" content="website" />
@@ -52,7 +55,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 			gtag('config', 'G-QJBB9WYRKL');
 		</script>
 	</head>
-	<body class="flex flex-col overflow-x-hidden w-screen min-h-screen bg-white dark:bg-gray-900 text-gray-700 dark:text-white antialiased text-rendering-legibility">
+	<body class="flex flex-col overflow-x-hidden w-screen min-h-screen bg-white dark:bg-zinc-900 text-gray-700 dark:text-white antialiased text-rendering-legibility">
 		<header class="text-black dark:text-white">
 			<div class="container mx-auto flex flex-row justify-between items-center h-16">
 				<div class="flex justify-start items-center">
