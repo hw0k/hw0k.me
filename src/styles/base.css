@@ -1,12 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+/* TODO: Typography v4 버전 커스터마이징 나오면 마이그레이션 진행 */
+@config '../../tailwind.config.mjs';
 
-@layer utilities {
-  .text-rendering-auto {
-    text-rendering: auto;
+@theme {
+  --font-sans: "Pretendard Variable", -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+  --breakpoint-*: initial;
+  --breakpoint-lg: 48rem;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@utility container {
+  padding-inline: 1rem;
+  @media (width >= theme(--breakpoint-lg)) {
+    padding-inline: 1.5rem;
   }
-  .text-rendering-legibility {
-    text-rendering: optimizeLegibility;
-  }
+}
+
+@utility text-rendering-auto {
+  text-rendering: auto;
+}
+
+@utility text-rendering-legibility {
+  text-rendering: optimizeLegibility;
 }
