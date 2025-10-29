@@ -8,6 +8,21 @@
 
   --breakpoint-*: initial;
   --breakpoint-lg: 48rem;
+
+  --color-background: theme(--color-white);
+  --color-background-dark: theme(--color-zinc-900);
+  
+  --color-text-primary: theme(--color-gray-700);
+  --color-text-primary-dark: theme(--color-white);
+  
+  --color-text-heading: theme(--color-black);
+  --color-text-heading-dark: theme(--color-white);
+  
+  --color-text-muted: theme(--color-gray-500);
+  --color-text-muted-hover: theme(--color-gray-800);
+  --color-text-muted-hover-dark: theme(--color-gray-300);
+  
+  --color-accent: theme(--color-cyan-600);
 }
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -25,4 +40,36 @@
 
 @utility text-rendering-legibility {
   text-rendering: optimizeLegibility;
+}
+
+@utility bg-theme {
+  background-color: theme(--color-background);
+  &:where(.dark, .dark *) {
+    background-color: theme(--color-background-dark);
+  }
+}
+
+@utility text-theme-primary {
+  color: theme(--color-text-primary);
+  &:where(.dark, .dark *) {
+    color: theme(--color-text-primary-dark);
+  }
+}
+
+@utility text-theme-heading {
+  color: theme(--color-text-heading);
+  &:where(.dark, .dark *) {
+    color: theme(--color-text-heading-dark);
+  }
+}
+
+@utility text-theme-muted {
+  color: theme(--color-text-muted);
+  
+  &:hover {
+    color: theme(--color-text-muted-hover);
+    &:where(.dark, .dark *) {
+      color: theme(--color-text-muted-hover-dark);
+    }
+  }
 }

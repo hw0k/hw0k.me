@@ -11,8 +11,8 @@ const sortedPosts = posts.toSorted((a, b) => b.data.publishedAt.getTime() - a.da
 		{sortedPosts.map(post => (
 			<a href={`/posts/${post.id}`} class="group" data-astro-prefetch="viewport">
 				<article>
-					<p class="text-sm text-gray-500">{post.data.publishedAt.toISOString().slice(0, 10)}</p>
-					<h3 class="text-lg text-black dark:text-white font-bold group-hover:underline">{post.data.title}</h3>
+					<p class="text-sm text-theme-muted">{post.data.publishedAt.toISOString().slice(0, 10)}</p>
+					<h3 class="text-lg text-theme-heading font-bold group-hover:underline">{post.data.title}</h3>
 				</article>
 			</a>
 		))}
