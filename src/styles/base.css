@@ -19,6 +19,7 @@
   --color-text-heading-dark: theme(--color-white);
   
   --color-text-muted: theme(--color-gray-500);
+  --color-text-muted-dark: theme(--color-gray-400);
   --color-text-muted-hover: theme(--color-gray-800);
   --color-text-muted-hover-dark: theme(--color-gray-300);
   
@@ -65,6 +66,16 @@
 
 @utility text-theme-muted {
   color: theme(--color-text-muted);
+  &:where(.dark, .dark *) {
+    color: theme(--color-text-muted-dark);
+  }
+}
+
+@utility text-theme-muted-hover {
+  color: theme(--color-text-muted);
+  &:where(.dark, .dark *) {
+    color: theme(--color-text-muted-dark);
+  }
   
   &:hover {
     color: theme(--color-text-muted-hover);

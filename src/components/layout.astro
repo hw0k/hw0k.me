@@ -71,13 +71,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 			<slot />
 		</main>
 		<footer class="mt-20 mb-4">
-			<div class="container mx-auto text-xs leading-relaxed text-theme-muted *:hover:underline">
-        <a href="mailto:contact@hw0k.me">contact@hw0k.me</a> | 
-        <a href="https://github.com/hw0k">github</a> |
-        <a href="https://linkedin.com/in/hw0k">linkedin</a>
+			<div class="container mx-auto text-xs leading-relaxed text-theme-muted">
+        <a href="mailto:contact@hw0k.me" class="text-theme-muted-hover hover:underline">contact@hw0k.me</a> | 
+        <a href="https://github.com/hw0k" class="text-theme-muted-hover hover:underline">github</a> |
+        <a href="https://linkedin.com/in/hw0k" class="text-theme-muted-hover hover:underline">linkedin</a>
         <br />
-        <a href="/rss.xml">rss</a> | 
-        <a href="https://github.com/hw0k/hw0k.me">source code</a>
+        <a href="/rss.xml" class="text-theme-muted-hover hover:underline">rss</a> | 
+        <a href="https://github.com/hw0k/hw0k.me" class="text-theme-muted-hover hover:underline">source code</a>
       </div>
 		</footer>
 	</body>

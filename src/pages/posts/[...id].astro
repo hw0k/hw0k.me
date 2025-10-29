@@ -34,8 +34,8 @@ const ogDescription = description ?? getExcerptFromPostBody(post?.body ?? '');
 <Layout title={title} description={ogDescription}>
   <article class="container mx-auto mb-12">
     <header class="mb-8">
-      <p class="text-sm text-gray-500">{publishedAt.toISOString().slice(0, 10)}</p>
-      <h1 class="text-4xl text-black dark:text-white font-extrabold leading-snug">{title}</h1>
+      <p class="text-sm text-theme-muted">{publishedAt.toISOString().slice(0, 10)}</p>
+      <h1 class="text-4xl text-theme-heading font-extrabold leading-snug">{title}</h1>
     </header>
     <Prose>
       <Content />
