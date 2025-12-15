@@ -18,9 +18,14 @@ const posts = defineCollection({
   schema: markdownSchema,
 });
 
+const shorts = defineCollection({
+  loader: glob({ pattern: '**/*.{md,mdx}', base: "./src/contents/shorts" }),
+  schema: markdownSchema,
+});
+
 const customContents = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: "./src/contents/custom-contents" }),
   schema: markdownSchema,
 });
 
-export const collections = { posts, 'custom-contents': customContents };
+export const collections = { posts, shorts, 'custom-contents': customContents };
