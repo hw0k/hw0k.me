@@ -1,22 +1,29 @@
 ---
-import { getEntries } from "astro:content";
-import { getCollection } from "astro:content";
+import { getEntries, getCollection, render } from "astro:content";
 import Layout from "~/components/layout.astro";
 import Prose from "~/components/prose.astro";
 
 const posts = await getCollection('shorts');
 const sortedPosts = posts.toSorted((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
 const entries = await getEntries(sortedPosts);
+const entriesWithRenderedData = await Promise.all(
+  entries.map(async (entry) => {
+    const { Content } = await render(entry);
+    return { ...entry, Content };
+  })
+);
 
 ---
 
 <Layout title="shorts">
 	<div class="container mx-auto flex flex-col gap-12">
-		{entries.map(entry => (
+		{entriesWithRenderedData.map(entry => (
       <article id={entry.id}>
         <p class="text-sm text-theme-muted">{entry.data.publishedAt.toISOString().slice(0, 10)}</p>
         <h3 class="mb-4 text-lg text-theme-heading font-bold">{entry.data.title}</h3>
-        <Prose set:html={entry.rendered?.html ?? ''} />
+        <Prose>
+          <entry.Content />
+        </Prose>
       </article>
 		))}
 	</div>
