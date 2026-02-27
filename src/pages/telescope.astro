@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "~/components/layout.astro";
+
+const items = await getCollection('telescope');
+const sortedItems = items.toSorted((a, b) => b.data.savedAt.getTime() - a.data.savedAt.getTime());
+
+const sourceLabels: Record<string, string> = {
+  spotify: 'Spotify',
+  github: 'GitHub',
+  raindrop: 'Raindrop',
+};
+---
+
+<Layout title="telescope">
+  <div class="container mx-auto flex flex-col gap-6">
+    {sortedItems.map(item => (
+      <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="group flex flex-row items-start gap-3">
+        <article class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-theme-muted">{sourceLabels[item.data.source]}</span>
+            <span class="text-xs text-theme-muted">·</span>
+            <p class="text-xs text-theme-muted">{item.data.savedAt.toISOString().slice(0, 10)}</p>
+          </div>
+          <h3 class="text-base text-theme-heading font-medium group-hover:underline truncate">{item.data.title}</h3>
+          {item.data.description && (
+            <p class="text-sm text-theme-muted truncate">{item.data.description}</p>
+          )}
+        </article>
+      </a>
+    ))}
+    {sortedItems.length === 0 && (
+      <p class="text-theme-muted text-sm">아직 항목이 없습니다.</p>
+    )}
+  </div>
+</Layout>
