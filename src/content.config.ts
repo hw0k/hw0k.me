@@ -1,5 +1,6 @@
 import { defineCollection, z, type ImageFunction, type SchemaContext } from "astro:content";
 import { glob } from 'astro/loaders';
+import { telescopeLoader, telescopeSchema } from '~/libs/loaders/telescope';
 
 const markdownSchemaFields = ({ image }: { image: ImageFunction }) => ({
   title: z.string(),
@@ -28,4 +29,9 @@ const customContents = defineCollection({
   schema: markdownSchema,
 });
 
-export const collections = { posts, shorts, 'custom-contents': customContents };
+const telescope = defineCollection({
+  loader: telescopeLoader(),
+  schema: telescopeSchema,
+});
+
+export const collections = { posts, shorts, 'custom-contents': customContents, telescope };
