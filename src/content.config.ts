@@ -29,9 +29,9 @@ const customContents = defineCollection({
   schema: markdownSchema,
 });
 
-const telescope = defineCollection({
+const telescopeEntries = defineCollection({
   loader: telescopeLoader(),
   schema: telescopeSchema,
 });
 
-export const collections = { posts, shorts, 'custom-contents': customContents, telescope };
+export const collections = { posts, shorts, 'custom-contents': customContents, 'telescope-entries': telescopeEntries };

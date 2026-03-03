@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "~/components/layout.astro";
 
-const items = await getCollection('telescope');
+const items = await getCollection('telescope-entries');
 const sortedItems = items.toSorted((a, b) => b.data.savedAt.getTime() - a.data.savedAt.getTime());
 
 const sourceLabels: Record<string, string> = {
