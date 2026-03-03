@@ -24,7 +24,7 @@ export interface RaindropBookmark {
   meta: Record<string, unknown>;
 }
 
-export async function fetchRaindropBookmarks(token: string): Promise<RaindropBookmark[]> {
+export async function fetchRaindropBookmarks(token: string, since: Date): Promise<RaindropBookmark[]> {
   const bookmarks: RaindropBookmark[] = [];
   let page = 0;
 
@@ -44,7 +44,12 @@ export async function fetchRaindropBookmarks(token: string): Promise<RaindropBoo
 
     if (!data.result || data.items.length === 0) break;
 
+    let reachedCutoff = false;
     for (const item of data.items) {
+      if (new Date(item.created) < since) {
+        reachedCutoff = true;
+        break;
+      }
       bookmarks.push({
         id: `raindrop-${item._id}`,
         title: item.title,
@@ -56,7 +61,7 @@ export async function fetchRaindropBookmarks(token: string): Promise<RaindropBoo
       });
     }
 
-    if (data.items.length < 50) break;
+    if (reachedCutoff || data.items.length < 50) break;
     page++;
   }
 

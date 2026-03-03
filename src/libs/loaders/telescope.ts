@@ -14,6 +14,13 @@ export const telescopeSchema = z.object({
   meta: z.record(z.unknown()).optional(),
 });
 
+const MAX_ITEMS_PER_SOURCE = 100;
+
+function limitItems<T extends { savedAt: Date }>(items: T[]): T[] {
+  // 이미 최신순 정렬된 상태 - 100개 초과 시 오래된 것(뒤쪽)부터 제거
+  return items.slice(0, MAX_ITEMS_PER_SOURCE);
+}
+
 export function telescopeLoader(): Loader {
   return {
     name: 'telescope-loader',
@@ -41,7 +48,7 @@ export function telescopeLoader(): Loader {
             logger.warn('GITHUB_TOKEN missing, skipping');
             return [];
           }
-          return fetchGitHubStarredRepos(token);
+          return fetchGitHubStarredRepos(token, since);
         })(),
         (async () => {
           const token = import.meta.env.RAINDROP_TOKEN;
@@ -49,7 +56,7 @@ export function telescopeLoader(): Loader {
             logger.warn('RAINDROP_TOKEN missing, skipping');
             return [];
           }
-          return fetchRaindropBookmarks(token);
+          return fetchRaindropBookmarks(token, since);
         })(),
       ]);
 
@@ -65,9 +72,9 @@ export function telescopeLoader(): Loader {
         logger.error(`Raindrop fetch failed: ${raindropResult.reason}`);
       }
 
-      const spotifyItems = spotifyResult.status === 'fulfilled' ? spotifyResult.value : [];
-      const githubItems = githubResult.status === 'fulfilled' ? githubResult.value : [];
-      const raindropItems = raindropResult.status === 'fulfilled' ? raindropResult.value : [];
+      const spotifyItems = limitItems(spotifyResult.status === 'fulfilled' ? spotifyResult.value : []);
+      const githubItems = limitItems(githubResult.status === 'fulfilled' ? githubResult.value : []);
+      const raindropItems = limitItems(raindropResult.status === 'fulfilled' ? raindropResult.value : []);
 
       for (const item of spotifyItems) {
         store.set({

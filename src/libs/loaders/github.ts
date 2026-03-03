@@ -21,7 +21,7 @@ export interface GitHubStarredRepo {
   meta: Record<string, unknown>;
 }
 
-export async function fetchGitHubStarredRepos(token: string): Promise<GitHubStarredRepo[]> {
+export async function fetchGitHubStarredRepos(token: string, since: Date): Promise<GitHubStarredRepo[]> {
   const repos: GitHubStarredRepo[] = [];
   let page = 1;
 
@@ -45,7 +45,12 @@ export async function fetchGitHubStarredRepos(token: string): Promise<GitHubStar
 
     if (data.length === 0) break;
 
+    let reachedCutoff = false;
     for (const item of data) {
+      if (new Date(item.starred_at) < since) {
+        reachedCutoff = true;
+        break;
+      }
       const { repo } = item;
       repos.push({
         id: `github-${repo.id}`,
@@ -58,7 +63,7 @@ export async function fetchGitHubStarredRepos(token: string): Promise<GitHubStar
       });
     }
 
-    if (data.length < 100) break;
+    if (reachedCutoff || data.length < 100) break;
     page++;
   }
 
