@@ -49,6 +49,12 @@ jobs:
         run: yarn install --immutable
       - name: Build
         run: yarn run build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
+          SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
+          SPOTIFY_REFRESH_TOKEN: ${{ secrets.SPOTIFY_REFRESH_TOKEN }}
+          RAINDROP_TOKEN: ${{ secrets.RAINDROP_TOKEN }}
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:

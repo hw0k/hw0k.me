@@ -43,9 +43,9 @@ export function telescopeLoader(): Loader {
           return fetchSpotifyLikedTracks(clientId, clientSecret, refreshToken, since);
         })(),
         (async () => {
-          const token = import.meta.env.GITHUB_TOKEN;
+          const token = import.meta.env.GH_TOKEN;
           if (!token) {
-            logger.warn('GITHUB_TOKEN missing, skipping');
+            logger.warn('GH_TOKEN missing, skipping');
             return [];
           }
           return fetchGitHubStarredRepos(token, since);
