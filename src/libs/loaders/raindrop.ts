@@ -26,11 +26,12 @@ export interface RaindropBookmark {
 
 export async function fetchRaindropBookmarks(token: string, since: Date): Promise<RaindropBookmark[]> {
   const bookmarks: RaindropBookmark[] = [];
+  const raindropCollectionId = '67462921';
   let page = 0;
 
   while (true) {
     const response = await fetch(
-      `https://api.raindrop.io/rest/v1/raindrops/0?perpage=50&page=${page}`,
+      `https://api.raindrop.io/rest/v1/raindrops/${raindropCollectionId}?perpage=50&page=${page}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       },
