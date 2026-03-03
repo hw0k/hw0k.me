@@ -21,6 +21,9 @@ export function telescopeLoader(): Loader {
     async load({ store, logger }) {
       store.clear();
 
+      const since = new Date();
+      since.setMonth(since.getMonth() - 1);
+
       const results = await Promise.allSettled([
         (async () => {
           const clientId = import.meta.env.SPOTIFY_CLIENT_ID;
@@ -30,7 +33,7 @@ export function telescopeLoader(): Loader {
             logger.warn('Spotify env vars missing, skipping');
             return [];
           }
-          return fetchSpotifyLikedTracks(clientId, clientSecret, refreshToken);
+          return fetchSpotifyLikedTracks(clientId, clientSecret, refreshToken, since);
         })(),
         (async () => {
           const token = import.meta.env.GITHUB_TOKEN;

@@ -12,7 +12,7 @@ interface SpotifyTrack {
     album: {
       images: { url: string; width: number; height: number }[];
     };
-  };
+  } | null;
 }
 
 interface SpotifyTracksResponse {
@@ -56,24 +56,32 @@ export async function fetchSpotifyLikedTracks(
   clientId: string,
   clientSecret: string,
   refreshToken: string,
+  since: Date,
 ): Promise<SpotifyLikedTrack[]> {
   const accessToken = await getAccessToken(clientId, clientSecret, refreshToken);
 
   const tracks: SpotifyLikedTrack[] = [];
-  let url: string | null = 'https://api.spotify.com/v1/me/tracks?limit=50';
+  let url: string | null = 'https://api.spotify.com/v1/me/tracks?market=KR&limit=50';
 
   while (url) {
     const response = await fetch(url, {
-      headers: { Authorization: `Bearer ${accessToken}` },
+      headers: { Authorization: `Bearer ${accessToken}`, 'Accept-Language': 'ko-KR' },
     });
 
     if (!response.ok) {
-      throw new Error(`Spotify tracks fetch failed: ${response.status}`);
+      throw new Error(`Spotify saved tracks fetch failed: ${response.status}`);
     }
 
     const data = await response.json() as SpotifyTracksResponse;
+    let reachedCutoff = false;
 
     for (const item of data.items) {
+      if (!item.track) continue;
+      if (new Date(item.added_at) < since) {
+        reachedCutoff = true;
+        break;
+      }
+
       const { track } = item;
       const artists = track.artists.map((a) => a.name).join(', ');
       const thumbnail = track.album.images[0]?.url ?? null;
@@ -89,6 +97,7 @@ export async function fetchSpotifyLikedTracks(
       });
     }
 
+    if (reachedCutoff) break;
     url = data.next;
   }
 
