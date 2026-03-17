@@ -32,7 +32,8 @@ const months = Object.keys(groupedByMonthDate).sort().reverse(); // newest first
 
 // Determine initial month from query param
 const paramMonth = Astro.url.searchParams.get('month');
-const initialMonth = (paramMonth && months.includes(paramMonth)) ? paramMonth : (months[0] ?? '');
+const validMonthFormat = /^\d{4}-\d{2}$/;
+const initialMonth = (paramMonth && validMonthFormat.test(paramMonth)) ? paramMonth : (months[0] ?? '');
 
 const [imYear, imMonth] = initialMonth.split('-');
 const pageDescription = initialMonth ? `Telescope - ${imYear}년 ${parseInt(imMonth)}월` : 'Telescope';
@@ -208,7 +209,7 @@ function cellColorClass(count: number, isFuture: boolean): string {
   </div>
 </Layout>
 
-<script define:vars={{ months, initialMonth }}>
+<script define:vars={{ months }}>
   if (months.length === 0) {
     // nothing to initialize
   } else {
@@ -243,19 +244,16 @@ function cellColorClass(count: number, isFuture: boolean): string {
       const section = document.getElementById(`month-${month}`);
       if (section) section.style.display = 'flex';
 
-      // Update nav buttons
-      document.getElementById('prev-month-btn').disabled = idx >= months.length - 1;
-      document.getElementById('next-month-btn').disabled = idx <= 0;
+      // Update nav buttons — handle months not in data via string comparison
+      const prevDisabled = idx !== -1 ? idx >= months.length - 1 : !months.some(m => m < month);
+      const nextDisabled = idx !== -1 ? idx <= 0 : !months.some(m => m > month);
+      document.getElementById('prev-month-btn').disabled = prevDisabled;
+      document.getElementById('next-month-btn').disabled = nextDisabled;
 
-      // Highlight selected month, blur/dim others
+      // Highlight selected month, dim others
       document.querySelectorAll('.heatmap-cell').forEach(el => {
-        if (el.dataset.month === month) {
-          el.style.opacity = '1';
-          el.style.filter = '';
-        } else {
-          el.style.opacity = '0.25';
-          el.style.filter = 'blur(0.5px)';
-        }
+        el.style.opacity = el.dataset.month === month ? '1' : '0.25';
+        el.style.filter = '';
       });
 
       // Scroll heatmap so selected month is centered
@@ -269,17 +267,31 @@ function cellColorClass(count: number, isFuture: boolean): string {
       }
     }
 
-    // Init: replace current history entry with the resolved initial month
-    navigateToMonth(initialMonth, false);
+    // Init: read month from actual browser URL (not build-time value)
+    const urlMonth = new URL(location.href).searchParams.get('month');
+    const startMonth = (urlMonth && /^\d{4}-\d{2}$/.test(urlMonth)) ? urlMonth : (months[0] ?? '');
+    navigateToMonth(startMonth, false);
 
     document.getElementById('prev-month-btn').addEventListener('click', () => {
-      const idx = months.indexOf(new URL(location.href).searchParams.get('month') ?? initialMonth);
-      if (idx < months.length - 1) navigateToMonth(months[idx + 1]);
+      const current = new URL(location.href).searchParams.get('month') ?? initialMonth;
+      const idx = months.indexOf(current);
+      if (idx !== -1) {
+        if (idx < months.length - 1) navigateToMonth(months[idx + 1]);
+      } else {
+        const target = months.find(m => m < current); // months is newest-first
+        if (target) navigateToMonth(target);
+      }
     });
 
     document.getElementById('next-month-btn').addEventListener('click', () => {
-      const idx = months.indexOf(new URL(location.href).searchParams.get('month') ?? initialMonth);
-      if (idx > 0) navigateToMonth(months[idx - 1]);
+      const current = new URL(location.href).searchParams.get('month') ?? initialMonth;
+      const idx = months.indexOf(current);
+      if (idx !== -1) {
+        if (idx > 0) navigateToMonth(months[idx - 1]);
+      } else {
+        const target = [...months].reverse().find(m => m > current); // find oldest newer month
+        if (target) navigateToMonth(target);
+      }
     });
 
     document.querySelectorAll('.heatmap-cell').forEach(el => {
