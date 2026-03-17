@@ -14,7 +14,7 @@ export const telescopeSchema = z.object({
   meta: z.record(z.unknown()).optional(),
 });
 
-const MAX_ITEMS_PER_SOURCE = 100;
+const MAX_ITEMS_PER_SOURCE = 2000;
 
 function limitItems<T extends { savedAt: Date }>(items: T[]): T[] {
   // 이미 최신순 정렬된 상태 - 100개 초과 시 오래된 것(뒤쪽)부터 제거
@@ -29,7 +29,9 @@ export function telescopeLoader(): Loader {
       store.clear();
 
       const since = new Date();
-      since.setMonth(since.getMonth() - 1);
+      since.setMonth(since.getMonth() - 12);
+      since.setDate(1);
+      since.setHours(0, 0, 0, 0);
 
       const results = await Promise.allSettled([
         (async () => {
