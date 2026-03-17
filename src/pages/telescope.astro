@@ -34,6 +34,9 @@ const months = Object.keys(groupedByMonthDate).sort().reverse(); // newest first
 const paramMonth = Astro.url.searchParams.get('month');
 const initialMonth = (paramMonth && months.includes(paramMonth)) ? paramMonth : (months[0] ?? '');
 
+const [imYear, imMonth] = initialMonth.split('-');
+const pageDescription = initialMonth ? `Telescope - ${imYear}년 ${parseInt(imMonth)}월` : 'Telescope';
+
 // Heatmap: from the 1st of the month 12 months ago
 const today = new Date();
 const todayStr = today.toISOString().slice(0, 10);
@@ -91,7 +94,7 @@ function cellColorClass(count: number, isFuture: boolean): string {
 }
 ---
 
-<Layout title="telescope">
+<Layout title="telescope" description={pageDescription}>
   <div class="container mx-auto flex flex-col gap-8">
 
     <!-- Heatmap -->
