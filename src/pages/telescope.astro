@@ -11,41 +11,285 @@ const sourceLabels: Record<string, string> = {
   raindrop: 'Raindrop 🔖',
 };
 
-const grouped: Record<string, typeof sortedItems> = {};
+// Count items per day
+const countByDay: Record<string, number> = {};
 for (const item of sortedItems) {
   const date = item.data.savedAt.toISOString().slice(0, 10);
-  if (!grouped[date]) grouped[date] = [];
-  grouped[date].push(item);
+  countByDay[date] = (countByDay[date] || 0) + 1;
 }
 
-const groupedEntries = Object.entries(grouped);
+// Group items: month → date → items
+const groupedByMonthDate: Record<string, Record<string, typeof sortedItems>> = {};
+for (const item of sortedItems) {
+  const month = item.data.savedAt.toISOString().slice(0, 7);
+  const date = item.data.savedAt.toISOString().slice(0, 10);
+  if (!groupedByMonthDate[month]) groupedByMonthDate[month] = {};
+  if (!groupedByMonthDate[month][date]) groupedByMonthDate[month][date] = [];
+  groupedByMonthDate[month][date].push(item);
+}
+
+const months = Object.keys(groupedByMonthDate).sort().reverse(); // newest first
+
+// Determine initial month from query param
+const paramMonth = Astro.url.searchParams.get('month');
+const initialMonth = (paramMonth && months.includes(paramMonth)) ? paramMonth : (months[0] ?? '');
+
+// Heatmap: from the 1st of the month 12 months ago
+const today = new Date();
+const todayStr = today.toISOString().slice(0, 10);
+
+const heatStart = new Date(today);
+heatStart.setMonth(heatStart.getMonth() - 12);
+heatStart.setDate(1);
+const heatStartStr = heatStart.toISOString().slice(0, 10);
+
+// Start grid from the Sunday of the week containing heatStart (Sunday-aligned)
+const firstSunday = new Date(heatStart);
+firstSunday.setDate(firstSunday.getDate() - firstSunday.getDay());
+
+type Cell = { date: string; count: number; month: string; isFuture: boolean };
+const weeks: Cell[][] = [];
+const cur = new Date(firstSunday);
+
+while (cur.toISOString().slice(0, 10) <= todayStr) {
+  const week: Cell[] = [];
+  for (let i = 0; i < 7; i++) {
+    const ds = cur.toISOString().slice(0, 10);
+    const ms = ds.slice(0, 7);
+    // Treat pre-start and future cells identically (invisible)
+    const isFuture = ds > todayStr || ds < heatStartStr;
+    week.push({ date: ds, count: isFuture ? 0 : (countByDay[ds] ?? 0), month: ms, isFuture });
+    cur.setDate(cur.getDate() + 1);
+  }
+  weeks.push(week);
+}
+
+// Month labels: use first visible (non-invisible) cell per week to avoid pre-start month labels
+const heatMonthLabels: { label: string; col: number }[] = [];
+let prevM = '';
+weeks.forEach((week, col) => {
+  const firstVisible = week.find(c => !c.isFuture);
+  if (!firstVisible) return;
+  const m = firstVisible.month;
+  if (m !== prevM) {
+    heatMonthLabels.push({ label: `${parseInt(m.slice(5))}월`, col });
+    prevM = m;
+  }
+});
+
+const CS = 12; // cell size px
+const CG = 3;  // cell gap px
+const STEP = CS + CG;
+
+function cellColorClass(count: number, isFuture: boolean): string {
+  if (isFuture) return 'invisible';
+  if (count === 0) return 'bg-gray-100 dark:bg-gray-800';
+  if (count === 1) return 'bg-emerald-200 dark:bg-emerald-900';
+  if (count <= 3) return 'bg-emerald-400 dark:bg-emerald-700';
+  if (count <= 6) return 'bg-emerald-500 dark:bg-emerald-500';
+  return 'bg-emerald-700 dark:bg-emerald-300';
+}
 ---
 
 <Layout title="telescope">
-  <div class="container mx-auto flex flex-col gap-12">
-    {groupedEntries.map(([date, dateItems]) => (
-      <section class="flex flex-col gap-4">
-        <p class="text-sm text-theme-muted">{date}</p>
-        <div class="flex flex-col gap-4">
-          {dateItems.map(item => (
-            <a href={item.data.url} target="_blank" rel="noopener noreferrer" class="group flex flex-row items-center gap-3 min-w-0">
-              {item.data.thumbnailUrl && (
-                <img src={item.data.thumbnailUrl} alt={item.data.title} class="w-10 h-10 rounded object-cover shrink-0" />
-              )}
-              <div class="flex flex-col min-w-0">
-                <span class="text-xs text-theme-muted">{sourceLabels[item.data.source]}</span>
-                <h3 class="text-base text-theme-heading font-bold group-hover:underline truncate">{item.data.title}</h3>
-                {item.data.description && (
-                  <p class="text-sm text-theme-muted truncate">{item.data.description}</p>
-                )}
-              </div>
-            </a>
+  <div class="container mx-auto flex flex-col gap-8">
+
+    <!-- Heatmap -->
+    <div id="heatmap-wrapper" class="overflow-x-auto w-full">
+      <div class="inline-flex flex-col" style={`gap: ${CG}px`}>
+        <!-- Month labels -->
+        <div
+          class="relative"
+          style={`width: ${weeks.length * STEP - CG}px; height: 14px`}
+        >
+          {heatMonthLabels.map(({ label, col }) => (
+            <span
+              class="absolute text-[10px] text-theme-muted leading-none"
+              style={`left: ${col * STEP}px`}
+            >{label}</span>
           ))}
         </div>
-      </section>
-    ))}
-    {groupedEntries.length === 0 && (
-      <p class="text-theme-muted text-sm">아직 항목이 없습니다.</p>
+
+        <!-- Week columns -->
+        <div class="flex" style={`gap: ${CG}px`}>
+          {weeks.map(week => (
+            <div class="flex flex-col" style={`gap: ${CG}px`}>
+              {week.map(cell =>
+                cell.isFuture ? (
+                  <div style={`width: ${CS}px; height: ${CS}px`} />
+                ) : (
+                  <button
+                    class={`heatmap-cell rounded-sm transition-opacity hover:opacity-70 ${cellColorClass(cell.count, cell.isFuture)}`}
+                    style={`width: ${CS}px; height: ${CS}px`}
+                    data-date={cell.date}
+                    data-month={cell.month}
+                    data-count={cell.count}
+                    title={`${cell.date}: ${cell.count}개`}
+                  />
+                )
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Month Navigation -->
+    {months.length > 0 && (
+      <div class="flex items-center gap-4">
+        <button
+          id="prev-month-btn"
+          class="text-theme-muted hover:text-theme-heading transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="이전 달"
+        >←</button>
+        <span
+          id="current-month-label"
+          class="text-sm font-medium text-theme-heading w-28 text-center tabular-nums"
+        />
+        <button
+          id="next-month-btn"
+          class="text-theme-muted hover:text-theme-heading transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          aria-label="다음 달"
+        >→</button>
+      </div>
     )}
+
+    <!-- Content per month -->
+    <div>
+      {months.map(month => (
+        <div
+          id={`month-${month}`}
+          class="month-section flex flex-col gap-12"
+          style={month === initialMonth ? 'display: flex' : 'display: none'}
+        >
+          {Object.entries(groupedByMonthDate[month]).sort().reverse().map(([date, dateItems]) => (
+            <section class="flex flex-col gap-4">
+              <p class="text-sm text-theme-muted">{date}</p>
+              <div class="flex flex-col gap-4">
+                {dateItems.map(item => (
+                  <a
+                    href={item.data.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="group flex flex-row items-center gap-3 min-w-0"
+                  >
+                    {item.data.thumbnailUrl && (
+                      <img
+                        src={item.data.thumbnailUrl}
+                        alt={item.data.title}
+                        class="w-10 h-10 rounded object-cover shrink-0"
+                      />
+                    )}
+                    <div class="flex flex-col min-w-0">
+                      <span class="text-xs text-theme-muted">{sourceLabels[item.data.source]}</span>
+                      <h3 class="text-base text-theme-heading font-bold group-hover:underline truncate">
+                        {item.data.title}
+                      </h3>
+                      {item.data.description && (
+                        <p class="text-sm text-theme-muted truncate">{item.data.description}</p>
+                      )}
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      ))}
+
+      {months.length === 0 && (
+        <p class="text-theme-muted text-sm">아직 항목이 없습니다.</p>
+      )}
+    </div>
+
   </div>
 </Layout>
+
+<script define:vars={{ months, initialMonth }}>
+  if (months.length === 0) {
+    // nothing to initialize
+  } else {
+    function getMonthLabel(month) {
+      const [y, m] = month.split('-');
+      return `${y}년 ${parseInt(m)}월`;
+    }
+
+    function navigateToMonth(month, addHistory = true) {
+      // Update URL
+      const url = new URL(location.href);
+      url.searchParams.set('month', month);
+      if (addHistory) {
+        history.pushState({ month }, '', url);
+      } else {
+        history.replaceState({ month }, '', url);
+      }
+
+      renderMonth(month);
+    }
+
+    function renderMonth(month) {
+      const idx = months.indexOf(month);
+
+      // Update label
+      document.getElementById('current-month-label').textContent = getMonthLabel(month);
+
+      // Show/hide sections
+      document.querySelectorAll('.month-section').forEach(el => {
+        el.style.display = 'none';
+      });
+      const section = document.getElementById(`month-${month}`);
+      if (section) section.style.display = 'flex';
+
+      // Update nav buttons
+      document.getElementById('prev-month-btn').disabled = idx >= months.length - 1;
+      document.getElementById('next-month-btn').disabled = idx <= 0;
+
+      // Highlight selected month, blur/dim others
+      document.querySelectorAll('.heatmap-cell').forEach(el => {
+        if (el.dataset.month === month) {
+          el.style.opacity = '1';
+          el.style.filter = '';
+        } else {
+          el.style.opacity = '0.25';
+          el.style.filter = 'blur(0.5px)';
+        }
+      });
+
+      // Scroll heatmap so selected month is centered
+      const wrapper = document.getElementById('heatmap-wrapper');
+      const firstCell = wrapper?.querySelector(`.heatmap-cell[data-month="${month}"]`);
+      if (wrapper && firstCell) {
+        const wrapperLeft = wrapper.getBoundingClientRect().left;
+        const cellLeft = firstCell.getBoundingClientRect().left;
+        const cellOffsetFromWrapper = cellLeft - wrapperLeft + wrapper.scrollLeft;
+        wrapper.scrollTo({ left: cellOffsetFromWrapper - wrapper.clientWidth / 2, behavior: 'smooth' });
+      }
+    }
+
+    // Init: replace current history entry with the resolved initial month
+    navigateToMonth(initialMonth, false);
+
+    document.getElementById('prev-month-btn').addEventListener('click', () => {
+      const idx = months.indexOf(new URL(location.href).searchParams.get('month') ?? initialMonth);
+      if (idx < months.length - 1) navigateToMonth(months[idx + 1]);
+    });
+
+    document.getElementById('next-month-btn').addEventListener('click', () => {
+      const idx = months.indexOf(new URL(location.href).searchParams.get('month') ?? initialMonth);
+      if (idx > 0) navigateToMonth(months[idx - 1]);
+    });
+
+    document.querySelectorAll('.heatmap-cell').forEach(el => {
+      el.addEventListener('click', () => {
+        const month = el.dataset.month;
+        if (months.includes(month)) navigateToMonth(month);
+      });
+    });
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', (e) => {
+      const month = e.state?.month ?? initialMonth;
+      if (months.includes(month)) renderMonth(month);
+    });
+  }
+</script>
