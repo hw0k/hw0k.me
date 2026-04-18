@@ -10,18 +10,18 @@ Astro 5.8.0으로 구축된 개인 블로그 사이트(https://hw0k.me)입니다
 
 **개발 서버 시작:**
 ```bash
-yarn dev
+pnpm dev
 ```
 
 **사이트 빌드:**
 ```bash
-yarn build
+pnpm build
 ```
 타입 체크(`astro check`)와 빌드(`astro build`)를 순차적으로 실행합니다.
 
 **프로덕션 빌드 미리보기:**
 ```bash
-yarn preview
+pnpm preview
 ```
 
 **타입 체크만:**
@@ -77,4 +77,4 @@ astro check
 
 ## 패키지 매니저
 
-이 프로젝트는 package.json에 명시된 대로 Yarn 4.5.0을 사용합니다. `npm` 대신 항상 `yarn` 명령어를 사용하세요.
+이 프로젝트는 package.json에 명시된 대로 pnpm 10을 사용합니다. `npm`이나 `yarn` 대신 항상 `pnpm` 명령어를 사용하세요.
